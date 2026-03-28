@@ -27,7 +27,9 @@ For each task:
 1. Mark as in_progress
 2. Follow each step exactly (plan has bite-sized steps)
 3. Run verifications as specified
-4. Mark as completed
+4. Use `superpowers:requesting-code-review` at the plan's review checkpoints (for example after each batch) before marking work complete
+5. Use `superpowers:receiving-code-review` to evaluate returned feedback before applying it
+6. Mark as completed
 
 ### Step 3: Complete Development
 
@@ -67,4 +69,6 @@ After all tasks complete and verified:
 **Required workflow skills:**
 - **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
 - **superpowers:writing-plans** - Creates the plan this skill executes
+- **superpowers:requesting-code-review** - Use at review checkpoints defined by the workflow or plan
+- **superpowers:receiving-code-review** - Evaluate reviewer feedback before deciding what to change
 - **superpowers:finishing-a-development-branch** - Complete development after all tasks

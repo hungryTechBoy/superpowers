@@ -11,6 +11,8 @@ Guide completion of development work by presenting clear options and handling ch
 
 **Core principle:** Verify tests → Present options → Execute choice → Clean up.
 
+If the current work is still uncommitted, do not create a commit automatically. Only move into merge/push flows after the user explicitly asks to create a commit or otherwise integrate the work.
+
 **Announce at start:** "I'm using the finishing-a-development-branch skill to complete this work."
 
 ## The Process
@@ -46,9 +48,15 @@ git merge-base HEAD main 2>/dev/null || git merge-base HEAD master 2>/dev/null
 
 Or ask: "This branch split from main - is that correct?"
 
+### Step 2.5: Check Commit / Environment State
+
+- If the work is uncommitted, report that integration options requiring branch/PR/merge need an explicit user instruction to create a commit first.
+- If running in a detached HEAD or externally managed worktree/App mode, follow the environment guidance and do not create a commit automatically.
+- Only continue directly to merge/push/discard execution when the required commit/branch state already exists or the user explicitly asks for it.
+
 ### Step 3: Present Options
 
-Present exactly these 4 options:
+If the work is already committed and ready for integration, present exactly these 4 options:
 
 ```
 Implementation complete. What would you like to do?
@@ -62,6 +70,20 @@ Which option?
 ```
 
 **Don't add explanation** - keep options concise.
+
+If the work is still uncommitted, present this instead:
+
+```
+Implementation is complete, but the work is still uncommitted.
+
+1. Create a commit now and then choose merge / PR options
+2. Keep the changes uncommitted for now
+3. Discard this work
+
+Which option?
+```
+
+Keep this prompt concise as well.
 
 ### Step 4: Execute Choice
 
@@ -84,7 +106,7 @@ git merge <feature-branch>
 git branch -d <feature-branch>
 ```
 
-Then: Cleanup worktree (Step 5)
+Then: Keep worktree for PR follow-up unless the user explicitly asks to clean it up now.
 
 #### Option 2: Push and Create PR
 
@@ -135,7 +157,7 @@ Then: Cleanup worktree (Step 5)
 
 ### Step 5: Cleanup Worktree
 
-**For Options 1, 2, 4:**
+**For Options 1 and 4:**
 
 Check if in worktree:
 ```bash
@@ -147,7 +169,7 @@ If yes:
 git worktree remove <worktree-path>
 ```
 
-**For Option 3:** Keep worktree.
+**For Options 2 and 3:** Keep worktree.
 
 ## Quick Reference
 
